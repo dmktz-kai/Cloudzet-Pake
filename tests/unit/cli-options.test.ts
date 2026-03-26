@@ -29,6 +29,14 @@ describe('CLI options', () => {
     expect(option?.hidden).toBe(true);
   });
 
+  it('registers hidden --publisher option', () => {
+    const option = program.options.find((item) => item.long === '--publisher');
+
+    expect(option).toBeDefined();
+    expect(option?.defaultValue).toBe('');
+    expect(option?.hidden).toBe(true);
+  });
+
   it('registers visible --install option', () => {
     const option = program.options.find((item) => item.long === '--install');
 

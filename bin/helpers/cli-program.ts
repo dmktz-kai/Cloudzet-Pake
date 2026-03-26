@@ -95,6 +95,14 @@ ${green('|_|   \\__,_|_|\\_\\___|  can turn any webpage into a desktop app with 
         .hideHelp(),
     )
     .addOption(
+      new Option(
+        '--publisher <string>',
+        'Windows installer publisher (WiX Manufacturer)',
+      )
+        .default(DEFAULT.publisher)
+        .hideHelp(),
+    )
+    .addOption(
       new Option('--always-on-top', 'Always on the top level')
         .default(DEFAULT.alwaysOnTop)
         .hideHelp(),

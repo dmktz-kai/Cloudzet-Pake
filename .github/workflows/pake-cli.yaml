@@ -22,6 +22,12 @@ on:
       name:
         description: "App name (lowercase for Linux)"
         required: true
+      app_version:
+        description: "App version (e.g. 1.0.0)"
+        required: false
+      publisher:
+        description: "Windows publisher (installer manufacturer)"
+        required: false
       icon:
         description: "Icon URL, auto-fetch if empty"
         required: false
@@ -45,6 +51,11 @@ on:
         default: false
       multi_arch:
         description: "Universal binary (macOS only)"
+        required: false
+        type: boolean
+        default: false
+      keep_binary:
+        description: "Keep binary output"
         required: false
         type: boolean
         default: false
@@ -100,6 +111,10 @@ jobs:
         run: |
           ARGS=("${{ inputs.url }}" "--name" "${{ inputs.name }}")
 
+          if [ -n "${{ inputs.app_version }}" ]; then
+            ARGS+=("--app-version" "${{ inputs.app_version }}")
+          fi
+
           if [ -n "${{ inputs.icon }}" ]; then
             ARGS+=("--icon" "${{ inputs.icon }}")
           fi
@@ -124,6 +139,10 @@ jobs:
             ARGS+=("--multi-arch")
           fi
 
+          if [ "${{ inputs.keep_binary }}" == "true" ]; then
+            ARGS+=("--keep-binary")
+          fi
+
           if [ -n "${{ inputs.targets }}" ] && [ "${{ runner.os }}" == "Linux" ]; then
             ARGS+=("--targets" "${{ inputs.targets }}")
           fi
@@ -137,6 +156,14 @@ jobs:
         shell: pwsh
         run: |
           $args = "${{ inputs.url }}", "--name", "${{ inputs.name }}"
+
+          if ("${{ inputs.app_version }}" -ne "") {
+            $args += "--app-version", "${{ inputs.app_version }}"
+          }
+
+          if ("${{ inputs.publisher }}" -ne "") {
+            $args += "--publisher", "${{ inputs.publisher }}"
+          }
 
           if ("${{ inputs.icon }}" -ne "") {
             $args += "--icon", "${{ inputs.icon }}"
@@ -156,6 +183,10 @@ jobs:
 
           if ("${{ inputs.hide_title_bar }}" -eq "true") {
             $args += "--hide-title-bar"
+          }
+
+          if ("${{ inputs.keep_binary }}" -eq "true") {
+            $args += "--keep-binary"
           }
 
           Write-Host "Running: node dist/cli.js $($args -join ' ')"

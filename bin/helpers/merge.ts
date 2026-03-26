@@ -51,6 +51,7 @@ export async function mergeConfig(
     hideTitleBar,
     alwaysOnTop,
     appVersion,
+    publisher,
     darkMode,
     disabledWebShortcuts,
     activationShortcut,
@@ -127,6 +128,10 @@ export async function mergeConfig(
 
   if (platform == 'win32') {
     tauriConf.bundle.windows.wix.language[0] = installerLanguage;
+    const normalizedPublisher = publisher.trim();
+    if (normalizedPublisher.length > 0) {
+      tauriConf.bundle.publisher = normalizedPublisher;
+    }
   }
 
   const pathExists = await fsExtra.pathExists(url);

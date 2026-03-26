@@ -10,6 +10,7 @@ export const DEFAULT_PAKE_OPTIONS: PakeCliOptions = {
   hideTitleBar: false,
   alwaysOnTop: false,
   appVersion: '1.0.0',
+  publisher: '',
   darkMode: false,
   disabledWebShortcuts: false,
   activationShortcut: '',

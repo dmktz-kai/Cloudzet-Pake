@@ -39,6 +39,9 @@ export interface PakeCliOptions {
   // App version, the same as package.json version, default 1.0.0
   appVersion: string;
 
+  // Windows installer publisher (maps to WiX Manufacturer)
+  publisher: string;
+
   // Force Mac to use dark mode, default false
   darkMode: boolean;
 
